@@ -16,7 +16,7 @@ public class Solution {
         Solution s = new Solution();
         // List<List<String>> res = new ArrayList<List<String>>();
         // res = s.suggestedProducts(da, "mouse");
-        s.longestPalindrome("babad");
+        System.out.println(s.longestPalindrome("babad"));
     }
 
     /**

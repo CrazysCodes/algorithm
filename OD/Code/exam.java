@@ -22,7 +22,8 @@ public class exam {
     public static void main(String[] args) {
         // System.out.println((new Random().nextInt() % 100) < 60 ? "YES" : "NO");
         test t = new test();
-        t.t1();
+        System.out.println("你好");
+        // t.t1();
     }
 }
 
