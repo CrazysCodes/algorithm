@@ -80,24 +80,24 @@ public class DayProblem {
     }
 
     // 2023.4.15 不邻接植花
-    public int[] gardenNoAdj(int n, int[][] paths) {
-        // 建图
-        List<Integer> g[] = new ArrayList[n];
-        Arrays.setAll(g, e -> new ArrayList<>());
-        for (var e : paths) {
-            int x = e[0] - 1, y = e[1] - 1; // 编号改从 0 开始
-            g[x].add(y);
-            g[y].add(x); // 建图
-        }
-        var color = new int[n];
-        for (int i = 0; i < n; ++i) {
-            var used = new boolean[5];
-            for (var j : g[i])
-                used[color[j]] = true;
-            while (used[++color[i]]);
-        }
-        return color;
-    }
+    // public int[] gardenNoAdj(int n, int[][] paths) {
+    //     // 建图
+    //     List<Integer> g[] = new ArrayList[n];
+    //     Arrays.setAll(g, e -> new ArrayList<>());
+    //     for (var e : paths) {
+    //         int x = e[0] - 1, y = e[1] - 1; // 编号改从 0 开始
+    //         g[x].add(y);
+    //         g[y].add(x); // 建图
+    //     }
+    //     var color = new int[n];
+    //     for (int i = 0; i < n; ++i) {
+    //         var used = new boolean[5];
+    //         for (var j : g[i])
+    //             used[color[j]] = true;
+    //         while (used[++color[i]]);
+    //     }
+    //     return color;
+    // }
 
     public static void main(String[] args) {
         String[] queries = { "FooBar", "FooBarTest", "FootBall", "FrameBuffer", "ForceFeedBack" };
