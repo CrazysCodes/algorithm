@@ -1,17 +1,19 @@
 from typing import List
 from collections import defaultdict
 import time
+from collections import deque
+from collections import Counter
 class Solution:
 # typing模块中的List与内置list的区别：前者是类型提示和静态类型检查（确保list中元素类型一致），后者是标准数据结构（可以包含任意类型元素）
 # 哈希(字典)
 
-    # 两数之和
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
+    # 两数之和(暴力)
+    def twoSum_violence(self, nums: List[int], target: int) -> List[int]:
         for i, x in enumerate(nums):
             for j in range(i + 1, len(nums)):
                 if x + nums[j] == target:
                     return [i, j]
-
+    # 两数之和(哈希表)
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         data = {}
         for index, num in enumerate(nums):
@@ -97,8 +99,7 @@ class Solution:
                     right -= 1
         return res
 
-    # 接雨水
-    # 按行计算
+    # 接雨水(按行计算)
     def trap_row(self, height: List[int]) -> int:
         res = 0
         for h in range(1, max(height) + 1):
@@ -112,8 +113,7 @@ class Solution:
                 else:
                     temp += 1
         return res
-    
-    # 按列计算
+    # 接雨水(按列计算)
     def trap_column(self, height: List[int]) -> int:
         res = 0
         for i in range(1, len(height) - 1):
@@ -124,8 +124,7 @@ class Solution:
                 max_right = max(max_right, height[j])
             res += max(0, min(max_left, max_right) - height[i])
         return res    
-    
-    # 动态规划
+    # 接雨水(动态规划)
     def trap_dp(self, height: List[int]) -> int:
         res = 0
         max_left, max_right = [0] * len(height), [0] * len(height)
@@ -141,8 +140,7 @@ class Solution:
             max_right[i] = max(max_right[i+1], height[i+1])
             res += max(0, min(max_left[i], max_right[i]) - height[i])
         return res    
-    
-    # 双指针
+    # 接雨水(双指针)
     def trap(self, height: List[int]) -> int:
         res = 0
         max_left, max_right = 0, 0
@@ -197,9 +195,58 @@ class Solution:
             data[sum] += 1
         return res
 
+    # 滑动窗口最大值(暴力)
+    def maxSlidingWindow_violence(self, nums: List[int], k: int) -> List[int]:
+        q = deque(nums[:k])
+        res = []
+        for i in range(k, len(nums)):
+            res.append(max(q))
+            q.popleft()
+            q.append(nums[i])
+        res.append(max(q))
+        return res
+    # 滑动窗口最大值(单调队列)
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        q = deque()
+        res = []
+        for i, num in enumerate(nums):
+            # 入
+            while q and nums[q[-1]] <= num:
+                q.pop()
+            q.append(i)
+            # 出
+            if q[0] <= i - k:
+                q.popleft()
+            # 记录
+            if i >= k - 1:
+                res.append(nums[q[0]])
+        return res
+    
+    # 最小覆盖子串
+    def minWindow(self, s: str, t: str) -> str:
+        ans_left, ans_right = -1, len(s)
+        map_s = Counter()
+        map_t = Counter(t)
+        
+        left = 0
+        for right, c in enumerate(s):
+            map_s[c] += 1
+            while map_s >= map_t:
+                if right - left < ans_right - ans_left:
+                    ans_left, ans_right = left, right
+                map_s[s[left]] -= 1
+                left += 1
+        return "" if ans_left < 0 else s[ans_left:ans_right + 1]
+
+    # 普通数组
+    # 最大子数组和
+    def maxSubArray(self, nums: List[int]) -> int:
+        
+        return max(nums)
+
 if __name__ == "__main__":    
     s = Solution()
     b = int(time.time() * 1000)
-    s.trap([2,0,2])
+    s.maxSlidingWindow([1,3,-1,-3,-5], 3)
     e = int(time.time() * 1000)
     print(e - b)
