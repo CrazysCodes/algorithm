@@ -7,13 +7,13 @@ class Solution:
 # typing模块中的List与内置list的区别：前者是类型提示和静态类型检查（确保list中元素类型一致），后者是标准数据结构（可以包含任意类型元素）
 # 哈希(字典)
 
-    # 两数之和(暴力)
+    # 1 两数之和(暴力)  https://leetcode.cn/problems/two-sum/description/
     def twoSum_violence(self, nums: List[int], target: int) -> List[int]:
         for i, x in enumerate(nums):
             for j in range(i + 1, len(nums)):
                 if x + nums[j] == target:
                     return [i, j]
-    # 两数之和(哈希表)
+    # 1 两数之和(哈希表) https://leetcode.cn/problems/two-sum/description/
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         data = {}
         for index, num in enumerate(nums):
@@ -21,7 +21,7 @@ class Solution:
                 return index, data[target- num]
             data[num] = index
 
-    # 字母异位词分组
+    # 49 字母异位词分组 https://leetcode.cn/problems/group-anagrams/description/
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         # 遍历strs
         data = defaultdict(list)     # defaultdict(list) ： 允许你为字典中的每个键指定一个默认值类型，这里默认值类型为list
@@ -29,7 +29,7 @@ class Solution:
             data[''.join(sorted(str))].append(str)
         return list(data.values())
     
-    # 最长连续序列
+    # 128 最长连续序列 https://leetcode.cn/problems/longest-consecutive-sequence/description/
     def longestConsecutive(self, nums: List[int]) -> int:
         nums = set(nums) #去重
         # 使用并查集
@@ -56,7 +56,7 @@ class Solution:
 
 # 双指针
 
-    # 移动零
+    # 283 移动零 https://leetcode.cn/problems/move-zeroes/description/
     def moveZeroes(self, nums: List[int]) -> None:
         zero = 0
         for index in range(len(nums)):
@@ -64,7 +64,7 @@ class Solution:
                 nums[index], nums[zero] = nums[zero], nums[index]
                 zero += 1    
 
-    # 盛水最多的容器
+    # 11 盛水最多的容器 https://leetcode.cn/problems/container-with-most-water/description/
     def maxArea(self, height: List[int]) -> int:
         left, right = 0, len(height) - 1
         max_area = 0
@@ -76,7 +76,7 @@ class Solution:
                 right -= 1
         return max_area
 
-    # 三数之和
+    # 15 三数之和 https://leetcode.cn/problems/3sum/description/
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         nums.sort()
         res = []
@@ -99,7 +99,7 @@ class Solution:
                     right -= 1
         return res
 
-    # 接雨水(按行计算)
+    # 42 接雨水(按行计算) https://leetcode.cn/problems/trapping-rain-water/description/
     def trap_row(self, height: List[int]) -> int:
         res = 0
         for h in range(1, max(height) + 1):
@@ -113,7 +113,7 @@ class Solution:
                 else:
                     temp += 1
         return res
-    # 接雨水(按列计算)
+    # 42 接雨水(按列计算) https://leetcode.cn/problems/trapping-rain-water/description/
     def trap_column(self, height: List[int]) -> int:
         res = 0
         for i in range(1, len(height) - 1):
@@ -124,7 +124,7 @@ class Solution:
                 max_right = max(max_right, height[j])
             res += max(0, min(max_left, max_right) - height[i])
         return res    
-    # 接雨水(动态规划)
+    # 42 接雨水(动态规划) https://leetcode.cn/problems/trapping-rain-water/description/
     def trap_dp(self, height: List[int]) -> int:
         res = 0
         max_left, max_right = [0] * len(height), [0] * len(height)
@@ -140,7 +140,7 @@ class Solution:
             max_right[i] = max(max_right[i+1], height[i+1])
             res += max(0, min(max_left[i], max_right[i]) - height[i])
         return res    
-    # 接雨水(双指针)
+    # 42 接雨水(双指针) https://leetcode.cn/problems/trapping-rain-water/description/
     def trap(self, height: List[int]) -> int:
         res = 0
         max_left, max_right = 0, 0
@@ -158,7 +158,7 @@ class Solution:
     
 # 滑动窗口
 
-    # 无重复字符的最长子串
+    # 3 无重复字符的最长子串 https://leetcode.cn/problems/longest-substring-without-repeating-characters/description/
     def lengthOfLongestSubstring(self, s: str) -> int:
         data = {}
         left, right = 0, 0
@@ -170,7 +170,7 @@ class Solution:
             max_len = max(max_len, right - left + 1)
         return max_len
 
-    # 找到字符串中所有字母异位词
+    # 438 找到字符串中所有字母异位词 https://leetcode.cn/problems/find-all-anagrams-in-a-string/description/
     def findAnagrams(self, s: str, p: str) -> List[int]:
         tem = sorted(p)
         res = []
@@ -181,7 +181,7 @@ class Solution:
 
 # 子串
 
-    # 和为 K 的子数组(前缀和、哈希表)
+    # 560 和为 K 的子数组(前缀和、哈希表) https://leetcode.cn/problems/subarray-sum-equals-k/description/
     # 转换为前缀和后，再联系到双数之和
     def subarraySum(self, nums: List[int], k: int) -> int:
         data = defaultdict(int)
@@ -195,7 +195,7 @@ class Solution:
             data[sum] += 1
         return res
 
-    # 滑动窗口最大值(暴力)
+    # 239 滑动窗口最大值(暴力) https://leetcode.cn/problems/sliding-window-maximum/description/
     def maxSlidingWindow_violence(self, nums: List[int], k: int) -> List[int]:
         q = deque(nums[:k])
         res = []
@@ -205,7 +205,7 @@ class Solution:
             q.append(nums[i])
         res.append(max(q))
         return res
-    # 滑动窗口最大值(单调队列)
+    # 239 滑动窗口最大值(单调队列) https://leetcode.cn/problems/sliding-window-maximum/description/
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
         q = deque()
         res = []
@@ -222,7 +222,7 @@ class Solution:
                 res.append(nums[q[0]])
         return res
     
-    # 最小覆盖子串
+    # 76 最小覆盖子串 https://leetcode.cn/problems/minimum-window-substring/description/
     def minWindow(self, s: str, t: str) -> str:
         ans_left, ans_right = -1, len(s)
         map_s = Counter()
@@ -239,14 +239,99 @@ class Solution:
         return "" if ans_left < 0 else s[ans_left:ans_right + 1]
 
     # 普通数组
-    # 最大子数组和
+    
+    # 53 最大子数组和 https://leetcode.cn/problems/maximum-subarray/description/
     def maxSubArray(self, nums: List[int]) -> int:
-        
-        return max(nums)
+        data = [0] * len(nums)
+        data[0] = nums[0]
+        for i in range(1, len(nums)):
+            data[i] = max(nums[i], data[i-1] + nums[i])
+        return max(data)
+    
+    # 56 合并区间 https://leetcode.cn/problems/merge-intervals/description/
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        intervals.sort(key=lambda x: x[0])
+        res = []
+        for interval in intervals:
+            if res and interval[0] <= res[-1][1]:
+                res[-1][1] = max(res[-1][1], interval[1])
+            else:
+                res.append(interval) 
+        return res
+    
+    # 189 轮转数组 https://leetcode.cn/problems/rotate-array/description/
+    def rotate(self, nums: List[int], k: int) -> None:
+        k %= len(nums)
+        nums.reverse()
+        nums[:k] = nums[:k][::-1]
+        nums[k:] = nums[k:][::-1]
+    
+    # 238 除自身以外数组的乘积 https://leetcode.cn/problems/product-of-array-except-self/description/
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        head, tail, res = [], [], []
+        acc = 1
+        for num in nums:
+            head.append(acc)
+            acc *= num
+        acc = 1
+        for num in reversed(nums):
+            tail.append(acc)
+            acc *= num
+        for i in range(len(nums)):
+            res.append(head[i] * tail[len(nums) - i - 1])
+        return res
+    
+    # 238 除自身以外数组的乘积 (优化) https://leetcode.cn/problems/product-of-array-except-self/description/
+    def productExceptSelf_elegant(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        pre = [1] * n
+        for i in range(1, n):
+            pre[i] = pre[i - 1] * nums[i - 1]
+
+        suf = [1] * n
+        for i in range(n - 2, -1, -1):
+            suf[i] = suf[i + 1] * nums[i + 1]
+
+        return [p * s for p, s in zip(pre, suf)]
+    
+    # 238 除自身以外数组的乘积 (优化) https://leetcode.cn/problems/product-of-array-except-self/description/
+    def productExceptSelf_elegant2(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        suf = [1] * n
+        for i in range(n - 2, -1, -1):
+            suf[i] = suf[i + 1] * nums[i + 1]
+
+        pre = 1
+        for i, x in enumerate(nums):
+            # 此时 pre 为 nums[0] 到 nums[i-1] 的乘积，直接乘到 suf[i] 中
+            suf[i] *= pre
+            pre *= x
+
+        return suf
+
+    # 41 缺失的第一个正数 https://leetcode.cn/problems/first-missing-positive/description/
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        for i in range(len(nums)):
+            while 1 <= nums[i] <= len(nums) and nums[nums[i] - 1] != nums[i]:
+                nums[nums[i] - 1], nums[i] = nums[i], nums[nums[i] - 1]
+        for i in range(len(nums)):
+            if nums[i] != i + 1:
+                return i + 1
+        return len(nums) + 1
+    
+    # 41 缺失的第一个正数 https://leetcode.cn/problems/first-missing-positive/description/
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        data = set(nums)
+        res = 1
+        for i in range(1, len(nums) + 2):
+            if i not in data:
+                return i
+            res = i + 1
+        return res
 
 if __name__ == "__main__":    
     s = Solution()
     b = int(time.time() * 1000)
-    s.maxSlidingWindow([1,3,-1,-3,-5], 3)
+    print(s.productExceptSelf([1,2,3,4]))
     e = int(time.time() * 1000)
     print(e - b)
