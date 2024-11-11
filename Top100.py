@@ -1,3 +1,4 @@
+import copy
 from typing import List
 from collections import defaultdict
 import time
@@ -328,10 +329,67 @@ class Solution:
                 return i
             res = i + 1
         return res
-
+    
+    # 矩阵
+    
+    # 73 矩阵置零 https://leetcode.cn/problems/set-matrix-zeroes/description/
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        row = set()
+        col = set()
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                if matrix[i][j] == 0:
+                    row.add(i)
+                    col.add(j)
+        for r in row:
+            matrix[r] = [0] * len(matrix[0])
+        for c in col:
+            for i in range(len(matrix)):
+                matrix[i][c] = 0
+                
+    # 54 螺旋矩阵 https://leetcode.cn/problems/spiral-matrix/description/
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        direction = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+        res = []
+        m ,n = len(matrix), len(matrix[0])
+        i, j, time = 0, 0, 0
+        for _ in range(m * n):
+            res.append(matrix[i][j])
+            matrix[i][j] = None
+            
+            x, y = i + direction[time][0], j + direction[time][1]
+            if x == m or x < 0 or y == n or y < 0 or matrix[x][y] == None:
+                time = (time + 1) % 4
+            
+            i += direction[time][0]
+            j += direction[time][1]
+        return res
+    
+    # 48 旋转图像 https://leetcode.cn/problems/rotate-image/description/
+    def rotate(self, matrix: List[List[int]]) -> None:
+        data = []
+        n = len(matrix)
+        for j in range(n):
+            temp = []
+            for i in range(n-1, -1, -1):
+                temp.append(matrix[i][j])
+            data.append(temp)
+        for i in range(n):
+            for j in range(n):
+                matrix[i][j] = data[i][j]
+                
+    # 48 旋转图像 https://leetcode.cn/problems/rotate-image/description/
+    def rotate_elegant(self, matrix: List[List[int]]) -> None:
+        n = len(matrix)
+        tmp = copy.deepcopy(matrix)
+        for i in range(n):
+            for j in range(n):
+                matrix[i][j] = tmp[n-1-j][i]
+                
+    
 if __name__ == "__main__":    
     s = Solution()
     b = int(time.time() * 1000)
-    print(s.productExceptSelf([1,2,3,4]))
+    print(s.spiralOrder([[1]]))
     e = int(time.time() * 1000)
     print(e - b)
