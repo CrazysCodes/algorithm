@@ -1,9 +1,16 @@
 import copy
-from typing import List
+from typing import List, Optional
 from collections import defaultdict
 import time
 from collections import deque
 from collections import Counter
+
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
 class Solution:
 # typing模块中的List与内置list的区别：前者是类型提示和静态类型检查（确保list中元素类型一致），后者是标准数据结构（可以包含任意类型元素）
 # 哈希(字典)
@@ -386,6 +393,99 @@ class Solution:
             for j in range(n):
                 matrix[i][j] = tmp[n-1-j][i]
                 
+    # 240 搜索二维矩阵 II https://leetcode.cn/problems/search-a-2d-matrix-ii/description/
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        m, n = len(matrix), len(matrix[0])
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j] == target:
+                    return True
+                elif matrix[i][j] > target:
+                    break
+        return False
+    
+    # 240 搜索二维矩阵 II https://leetcode.cn/problems/search-a-2d-matrix-ii/description/
+    def searchMatrix_elegant(self, matrix: List[List[int]], target: int) -> bool:
+        m, n = len(matrix), len(matrix[0])
+        i, j = 0, n - 1
+        while i < m and j > -1:
+            if matrix[i][j] == target:
+                return True
+            elif matrix[i][j] < target:
+                i += 1
+            else:
+                j -= 1
+        return False
+    
+    # 160 相交链表 https://leetcode.cn/problems/intersection-of-two-linked-lists/description/
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:
+        lenA, lenB = 0, 0
+        pA, pB = headA, headB
+        while pA:
+            lenA += 1
+            pA = pA.next
+        while pB:
+            lenB += 1
+            pB = pB.next
+        pA, pB = headA, headB
+        if lenA > lenB:
+            for _ in range(lenA - lenB):
+                pA = pA.next
+        else:
+            for _ in range(lenB - lenA):
+                pB = pB.next
+        while pA and pB:
+            if pA == pB:
+                return pA
+            pA = pA.next
+            pB = pB.next
+        return None
+    
+    # 160 相交链表 https://leetcode.cn/problems/intersection-of-two-linked-lists/description/
+    def getIntersectionNode_hash(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:
+        pA, pB = headA, headB
+        hashset = set()
+        while pA:
+            hashset.add(pA)
+            pA = pA.next
+        while pB:
+            if pB in hashset:
+                return pB
+            pB = pB.next
+        return None
+        
+    # 160 相交链表 https://leetcode.cn/problems/intersection-of-two-linked-lists/description/
+    def getIntersectionNode_elegant(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:
+        pA, pB = headA, headB
+        while pA != pB:
+            pA = pA.next if pA else headB
+            pB = pB.next if pB else headA
+        return pA
+    
+    # 206 反转链表 https://leetcode.cn/problems/reverse-linked-list/description/
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        res = None
+        while head:
+            temp = head.next
+            head.next = res
+            res = head
+            head = temp
+        return res
+    
+    # 234 回文链表 https://leetcode.cn/problems/palindrome-linked-list/description/
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        data = []
+        while head:
+            data.append(head.val)
+            head = head.next
+        i, j = 0, len(data) - 1
+        while i < j:
+            if data[i] != data[j]:
+                return False
+            i += 1
+            j -= 1
+        return True
+    
     
 if __name__ == "__main__":    
     s = Solution()
