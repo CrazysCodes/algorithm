@@ -486,10 +486,98 @@ class Solution:
             j -= 1
         return True
     
+    # 141 环形链表 https://leetcode.cn/problems/linked-list-cycle/description/
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        data = set()
+        while head:
+            if head in data:
+                return True
+            data.add(head)
+            head = head.next
+        return False
+    
+    # 142 环形链表 II https://leetcode.cn/problems/linked-list-cycle-ii/description/
+    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        data = set()
+        while head:
+            if head in data:
+                return head
+            data.add(head)
+            head = head.next
+        return None
+    
+    # 21 合并两个有序链表 https://leetcode.cn/problems/merge-two-sorted-lists/description/
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        def merge(list1, list2):
+            if not list1:
+                return list2
+            if not list2:
+                return list1
+            if list1.val < list2.val:
+                list1.next = merge(list1.next, list2)
+                return list1
+            else:
+                list2.next = merge(list1, list2.next)
+                return list2
+        return merge(list1, list2)
+    
+    # 2 两数相加 https://leetcode.cn/problems/add-two-numbers/description/
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        a, b = 0, 0
+        index = 1
+        while l1:
+            a = a + l1.val * index
+            index *= 10
+            l1 = l1.next
+        index = 1
+        while l2:
+            b = b + l2.val * index
+            index *= 10
+            l2 = l2.next
+        c = a + b
+        res = ListNode(c % 10)
+        c //= 10
+        head = res
+        while c:
+            temp = ListNode(c % 10, None)
+            head.next = temp
+            head = temp
+            c //= 10
+        return res
+    
+    # 19 删除链表的倒数第 N 个结点 https://leetcode.cn/problems/remove-nth-node-from-end-of-list/description/
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        len = 0
+        p = head
+        while p:
+            len += 1
+            p = p.next
+        if n == len:
+            return head.next
+        p = head
+        for _ in range(len - n - 1):
+            p = p.next
+        p.next = p.next.next
+        return head
+    
+    # 24 两两交换链表中的节点 https://leetcode.cn/problems/swap-nodes-in-pairs/description/
+    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        p = head
+        while p and p.next:
+            p.val, p.next.val = p.next.val, p.val
+            p = p.next.next
+        return head
+
     
 if __name__ == "__main__":    
     s = Solution()
     b = int(time.time() * 1000)
-    print(s.spiralOrder([[1]]))
+    l1 = ListNode(2)
+    l1.next = ListNode(4)
+    l1.next.next = ListNode(3)
+    l2 = ListNode(5)
+    l2.next = ListNode(6)
+    l2.next.next = ListNode(4)
+    print(s.addTwoNumbers(l1, l2))
     e = int(time.time() * 1000)
     print(e - b)
