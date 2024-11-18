@@ -11,6 +11,12 @@ class ListNode:
         self.val = x
         self.next = None
 
+class Node:
+    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
+        self.val = int(x)
+        self.next = next
+        self.random = random
+
 class Solution:
 # typing模块中的List与内置list的区别：前者是类型提示和静态类型检查（确保list中元素类型一致），后者是标准数据结构（可以包含任意类型元素）
 # 哈希(字典)
@@ -472,6 +478,22 @@ class Solution:
             head = temp
         return res
     
+    # 92 反转链表 II https://leetcode.cn/problems/reverse-linked-list-ii/description/
+    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
+        guard = ListNode(next=head)
+        p0 = guard
+        for _ in range(1,left):
+            p0 = p0.next
+        pre, cur = p0, p0.next
+        for _ in range(left, right + 1):
+            nxt = cur.next
+            cur.next = pre
+            pre = cur
+            cur = nxt
+        p0.next.next = cur
+        p0.next = pre
+        return guard.next
+    
     # 234 回文链表 https://leetcode.cn/problems/palindrome-linked-list/description/
     def isPalindrome(self, head: Optional[ListNode]) -> bool:
         data = []
@@ -567,7 +589,89 @@ class Solution:
             p.val, p.next.val = p.next.val, p.val
             p = p.next.next
         return head
-
+    
+    # 25 K 个一组翻转链表 https://leetcode.cn/problems/reverse-nodes-in-k-group/description/
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        guard = ListNode(next=head)
+        n, p = 0, head
+        while p:
+            n += 1
+            p = p.next
+        p0, pre, cur = guard, None, head
+        while n >= k:
+            n -= k
+            for _ in range(k):
+                nxt = cur.next
+                cur.next = pre
+                pre = cur
+                cur = nxt
+            nxt = p0.next
+            p0.next.next = cur
+            p0.next = pre
+            p0 = nxt
+        return guard.next
+    
+    # 138 复制带随机指针的链表 https://leetcode.cn/problems/copy-list-with-random-pointer/description/
+    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        list = []
+        data = {}
+        index_map = {}
+        index = 0
+        p = head
+        while p:
+            temp = Node(p.val)
+            list.append(temp)
+            if index > 0:
+                list[index - 1].next = temp
+            index_map[p] = index
+            index += 1
+            p = p.next
+        p = head
+        while p:
+            if p.random:
+                data[p] = index_map[p.random]
+            else:
+                data[p] = -1
+            p = p.next
+        p = head
+        while p:
+            if data[p] != -1:
+                list[index_map[p]].random = list[data[p]]
+            p = p.next
+        return list[0]
+    
+    # 138 复制带随机指针的链表 https://leetcode.cn/problems/copy-list-with-random-pointer/description/
+    def copyRandomList_elegant(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        if not head:
+            return None
+        node_map = {}
+        p = head
+        while p:
+            node_map[p] = Node(p.val)
+            p = p.next
+        p = head
+        while p:
+            if p.next:
+                node_map[p].next = node_map[p.next]
+            if p.random:
+                node_map[p].random = node_map[p.random]
+            p = p.next
+        return node_map[head]
+    
+    # 148 排序链表 https://leetcode.cn/problems/sort-list/description/
+    def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        data = []
+        p = head
+        while p:
+            data.append(p.val)
+            p = p.next
+        data.sort()
+        p, i = head, 0
+        while p:
+            p.val = data[i]
+            p = p.next
+            i += 1
+        return head
     
 if __name__ == "__main__":    
     s = Solution()

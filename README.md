@@ -13,6 +13,7 @@
   - 240 搜索二维矩阵 II <https://leetcode.cn/problems/search-a-2d-matrix-ii/description/>
   - 160 相交链表 <https://leetcode.cn/problems/intersection-of-two-linked-lists/description/>
   - 206 反转链表 <https://leetcode.cn/problems/reverse-linked-list/description/>
+  - 92 反转链表 II <https://leetcode.cn/problems/reverse-linked-list-ii/description/>
   - 234 回文链表 <https://leetcode.cn/problems/palindrome-linked-list/description/>
 - 11.13 P25 ~ P30（链表）✅
   - 141 环形链表 <https://leetcode.cn/problems/linked-list-cycle/description/>
@@ -22,3 +23,8 @@
   - 19 删除链表的倒数第 N 个结点 <https://leetcode.cn/problems/remove-nth-node-from-end-of-list/description/>
   - 24 两两交换链表中的节点 <https://leetcode.cn/problems/swap-nodes-in-pairs/description/>
 - 11.14
+  - 138 复制带随机指针的链表 <https://leetcode.cn/problems/copy-list-with-random-pointer/description/>
+- 11.18
+  - 25 K 个一组翻转链表 <https://leetcode.cn/problems/reverse-nodes-in-k-group/description/>
+  - 148 排序链表 <https://leetcode.cn/problems/sort-list/description/>
+- 11.19
