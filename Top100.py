@@ -5,6 +5,18 @@ import time
 from collections import deque
 from collections import Counter
 
+# 146. LRU 缓存 https://leetcode.cn/problems/lru-cache/description/
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        return
+
+    def get(self, key: int) -> int:
+        return 0
+
+    def put(self, key: int, value: int) -> None:
+        return None
+
 # Definition for singly-linked list.
 class ListNode:
     def __init__(self, x):
@@ -16,6 +28,12 @@ class Node:
         self.val = int(x)
         self.next = next
         self.random = random
+        
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
 
 class Solution:
 # typing模块中的List与内置list的区别：前者是类型提示和静态类型检查（确保list中元素类型一致），后者是标准数据结构（可以包含任意类型元素）
@@ -673,15 +691,45 @@ class Solution:
             i += 1
         return head
     
+    # 23. 合并 K 个升序链表 https://leetcode.cn/problems/merge-k-sorted-lists/description/
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        return None
+    
+# 二叉树
+    # 94. 二叉树的中序遍历 https://leetcode.cn/problems/binary-tree-inorder-traversal/description/
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        if root:
+            return self.inorderTraversal(root.left) + [root.val] + self.inorderTraversal(root.right)
+        return []
+    
+    # 104. 二叉树的最大深度 https://leetcode.cn/problems/maximum-depth-of-binary-tree/description/
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        if root:
+            return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+        return 0
+    
+    # 226. 翻转二叉树  https://leetcode.cn/problems/invert-binary-tree/description/
+    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if root:
+            root.left, root.right = root.right, root.left
+            self.invertTree(root.left)
+            self.invertTree(root.right)
+        return root
+    
+    # 101. 对称二叉树 https://leetcode.cn/problems/symmetric-tree/description/
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        if not root:
+            return True
+        def is_mirror(left, right):
+            if not left and not right:
+                return True
+            if not left or not right:
+                return False
+            return left.val == right.val and is_mirror(left.left, right.right) and is_mirror(left.right, right.left)
+        return is_mirror(root.left, root.right)
+
 if __name__ == "__main__":    
     s = Solution()
-    b = int(time.time() * 1000)
-    l1 = ListNode(2)
-    l1.next = ListNode(4)
-    l1.next.next = ListNode(3)
-    l2 = ListNode(5)
-    l2.next = ListNode(6)
-    l2.next.next = ListNode(4)
-    print(s.addTwoNumbers(l1, l2))
-    e = int(time.time() * 1000)
-    print(e - b)
+    a = [1]
+    b = [2]
+    print(a + b)
