@@ -727,6 +727,76 @@ class Solution:
                 return False
             return left.val == right.val and is_mirror(left.left, right.right) and is_mirror(left.right, right.left)
         return is_mirror(root.left, root.right)
+    
+    # 543. 二叉树的直径 https://leetcode.cn/problems/diameter-of-binary-tree/description/
+    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        ans = 0
+        def dfs(node: Optional[TreeNode]) -> int:
+            if node is None:
+                return -1
+            l_len = dfs(node.left) + 1
+            r_len = dfs(node.right) + 1
+            nonlocal ans
+            ans = max(ans, l_len + r_len)
+            return max(l_len, r_len)
+        dfs(root)
+        return ans
+    
+    # 102. 二叉树的层序遍历 https://leetcode.cn/problems/binary-tree-level-order-traversal/description/
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        node_queue = deque([root])
+        res = []
+        while node_queue:
+            level_size = len(node_queue)
+            level_data = []
+            for _ in range(level_size):
+                node = node_queue.popleft()
+                if node:
+                    level_data.append(node.val)
+                    node_queue.append(node.left)
+                    node_queue.append(node.right)
+            if level_data:
+                res.append(level_data)
+        return res
+    
+    # 108. 将有序数组转换为二叉搜索树 https://leetcode.cn/problems/convert-sorted-array-to-binary-search-tree/description/
+    def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
+        if not nums:
+            return None
+        n = len(nums) // 2
+        return TreeNode(nums[n], self.sortedArrayToBST(nums[:n]), self.sortedArrayToBST(nums[n+1:]))
+    
+    # 98. 验证二叉搜索树 https://leetcode.cn/problems/validate-binary-search-tree/description/
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        def dfs(node: Optional[TreeNode]) -> List[int]:
+            if not node:
+                return []
+            return dfs(node.left) + [node.val] + dfs(node.right)
+        return dfs(root) == sorted(set(dfs(root)))
+        
+    # 230. 二叉搜索树中第 K 小的元素 https://leetcode.cn/problems/kth-smallest-element-in-a-bst/description/
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        def dfs(node: Optional[TreeNode]) -> List[int]:
+            if not node:
+                return []
+            return dfs(node.left) + [node.val] + dfs(node.right)
+        return dfs(root)[k-1]
+    
+    # 199. 二叉树的右视图 https://leetcode.cn/problems/binary-tree-right-side-view/description/
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        q = deque([root])
+        res = []
+        while q:
+            level_data = []
+            for _ in range(len(q)):
+                node = q.popleft()
+                if node:
+                    level_data.append(node.val)
+                    q.append(node.left)
+                    q.append(node.right)
+            if level_data:
+                res.append(level_data[-1])
+        return res
 
 if __name__ == "__main__":    
     s = Solution()
